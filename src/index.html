@@ -17,6 +17,8 @@
         let rightY = (500 - 80) / 2;
         let ballY = (500 - 10) / 2;
         let ballX = (800 - 10) / 2;
+        let vx = 4;
+        let vy = 3;
 
         const leftP = document.querySelector(".left-paddle");
         const rightP = document.querySelector(".right-paddle");
@@ -28,6 +30,18 @@
             ball.style.transform = `translate(${ballX}px, ${ballY}px)`
         }
 
-        draw()
+        function loop() {
+            ballX += vx;
+            ballY += vy;
+            if (ballY < 0 || ballY > (500 -10 )) {vy *= -1}
+            if (ballX < 0 || ballX > (800 - 10)) {
+                ballY = (500 - 10) / 2;
+                ballX = (800 - 10) / 2;
+            }
+            draw()
+            requestAnimationFrame(loop)
+        }
+
+        loop()
     </script>
 </body>
