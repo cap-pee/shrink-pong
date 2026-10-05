@@ -1,0 +1,33 @@
+<body>
+    <h1>Pong</h1>
+    <div class="container">
+        <div class="left-paddle item"></div>
+        <div class="right-paddle item"></div>
+        <div class="ball item"></div>
+    </div>
+    <style>
+        .container { position: relative; background: black; color: white; font-family: sans-serif; width: 800px; height: 500px;}
+        .item { position: absolute; background-color: white; }
+        .left-paddle { width: 10px; height: 80px; left: 20px; }
+        .right-paddle { width: 10px; height: 80px; right: 20px; }
+        .ball { width: 10px; height: 10px; }
+    </style>
+    <script>
+        let leftY = (500 - 80) / 2;
+        let rightY = (500 - 80) / 2;
+        let ballY = (500 - 10) / 2;
+        let ballX = (800 - 10) / 2;
+
+        const leftP = document.querySelector(".left-paddle");
+        const rightP = document.querySelector(".right-paddle");
+        const ball = document.querySelector(".ball");
+
+        function draw() {
+            leftP.style.transform = `translateY(${leftY}px)`
+            rightP.style.transform = `translateY(${rightY}px)`
+            ball.style.transform = `translate(${ballX}px, ${ballY}px)`
+        }
+
+        draw()
+    </script>
+</body>
