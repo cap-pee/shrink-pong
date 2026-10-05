@@ -4,6 +4,8 @@
         <div class="left-paddle item"></div>
         <div class="right-paddle item"></div>
         <div class="ball item"></div>
+        <p>0 : 0</p>
+
     </div>
     <style>
         .container { position: relative; background: black; color: white; font-family: sans-serif; width: 800px; height: 500px;}
@@ -11,6 +13,7 @@
         .left-paddle { width: 10px; height: 80px; left: 20px; }
         .right-paddle { width: 10px; height: 80px; right: 20px; }
         .ball { width: 10px; height: 10px; }
+        p { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; font-size: 30px;}
     </style>
     <script>
         let leftY = (500 - 80) / 2;
@@ -19,31 +22,46 @@
         let ballX = (800 - 10) / 2;
         let vx = 2;
         let vy = 2;
+        let sc1 = 0;
+        let sc2 = 0;
 
         const leftP = document.querySelector(".left-paddle");
         const rightP = document.querySelector(".right-paddle");
         const ball = document.querySelector(".ball");
+        const score = document.querySelector('p')
 
         function draw() {
             leftP.style.transform = `translateY(${leftY}px)`
             rightP.style.transform = `translateY(${rightY}px)`
             ball.style.transform = `translate(${ballX}px, ${ballY}px)`
+            score.textContent = `${sc1} : ${sc2} `
         }
 
         function loop() {
             ballX += vx;
             ballY += vy;
             if (ballY < 0 || ballY > (500 -10 )) {vy *= -1}
-            if (ballX < 0 || ballX > (800 - 10)) {
+            if (ballX < 0) {
                 ballY = (500 - 10) / 2;
                 ballX = (800 - 10) / 2;
+                vx *= -1;
+                sc2 += 1; 
+            }
+            
+            if (ballX > (800 - 10)) {
+                ballY = (500 - 10) / 2;
+                ballX = (800 - 10) / 2;
+                vx *= -1;
+                sc1 += 1;
             }
 
             if (ballX + 10 > 20 && ballX < 30 && ballY + 10 > leftY && ballY < leftY + 80) {
                 vx *= -1
+                ballX = 30;
             }
             if (ballX + 10 > 770 && ballX < 780 && ballY + 10 > rightY && ballY < rightY + 80) {
                 vx *= -1
+                ballX = 760;
             }
             draw()
             requestAnimationFrame(loop)
@@ -62,6 +80,10 @@
             if (event.key === 'ArrowDown') {
                 rightY += 10;
             }
+            if (leftY < 0) {leftY = 0}
+            if (leftY > (500 - 80)) {leftY = (500 - 80)}
+            if (rightY < 0) {rightY = 0}
+            if (rightY > (500 - 80)) {rightY = (500 - 80)} 
         });
 
         loop()
