@@ -17,8 +17,8 @@
         let rightY = (500 - 80) / 2;
         let ballY = (500 - 10) / 2;
         let ballX = (800 - 10) / 2;
-        let vx = 4;
-        let vy = 3;
+        let vx = 2;
+        let vy = 2;
 
         const leftP = document.querySelector(".left-paddle");
         const rightP = document.querySelector(".right-paddle");
@@ -38,9 +38,31 @@
                 ballY = (500 - 10) / 2;
                 ballX = (800 - 10) / 2;
             }
+
+            if (ballX + 10 > 20 && ballX < 30 && ballY + 10 > leftY && ballY < leftY + 80) {
+                vx *= -1
+            }
+            if (ballX + 10 > 770 && ballX < 780 && ballY + 10 > rightY && ballY < rightY + 80) {
+                vx *= -1
+            }
             draw()
             requestAnimationFrame(loop)
         }
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'w') {
+                leftY -= 10;
+            }
+            if (event.key === 's') {
+                leftY += 10;
+            }
+            if (event.key === 'ArrowUp') {
+                rightY -= 10;
+            }
+            if (event.key === 'ArrowDown') {
+                rightY += 10;
+            }
+        });
 
         loop()
     </script>
