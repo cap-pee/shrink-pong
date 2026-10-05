@@ -8,12 +8,14 @@
 
     </div>
     <style>
+        body {display: grid; place-items: center;}
         .container { position: relative; background: black; color: white; font-family: sans-serif; width: 800px; height: 500px;}
         .item { position: absolute; background-color: white; }
         .left-paddle { width: 10px; height: 80px; left: 20px; }
         .right-paddle { width: 10px; height: 80px; right: 20px; }
         .ball { width: 10px; height: 10px; }
         p { position: absolute; bottom: 10px; left: 0; right: 0; text-align: center; font-size: 30px;}
+        
     </style>
     <script>
         let leftY = (500 - 80) / 2;
@@ -24,6 +26,7 @@
         let vy = 2;
         let sc1 = 0;
         let sc2 = 0;
+        const keys = {}
 
         const leftP = document.querySelector(".left-paddle");
         const rightP = document.querySelector(".right-paddle");
@@ -34,10 +37,22 @@
             leftP.style.transform = `translateY(${leftY}px)`
             rightP.style.transform = `translateY(${rightY}px)`
             ball.style.transform = `translate(${ballX}px, ${ballY}px)`
-            score.textContent = `${sc1} : ${sc2} `
+            score.textContent = `${sc1} : ${sc2}`
         }
 
         function loop() {
+
+            if (keys['w']) {leftY -= 2}
+            if (keys['s']) {leftY += 2}
+            if (keys['ArrowUp']) (rightY -= 2)
+            if (keys['ArrowDown']) (rightY += 2)
+
+            if (leftY < 0) {leftY = 0}
+            if (leftY > (500 - 80)) {leftY = (500 - 80)}
+            if (rightY < 0) {rightY = 0}
+            if (rightY > (500 - 80)) {rightY = (500 - 80)} 
+
+
             ballX += vx;
             ballY += vy;
             if (ballY < 0 || ballY > (500 -10 )) {vy *= -1}
@@ -67,24 +82,18 @@
             requestAnimationFrame(loop)
         }
 
+
+
         document.addEventListener('keydown', (event) => {
-            if (event.key === 'w') {
-                leftY -= 10;
+            keys[event.key] = true;
+            if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                event.preventDefault()
             }
-            if (event.key === 's') {
-                leftY += 10;
-            }
-            if (event.key === 'ArrowUp') {
-                rightY -= 10;
-            }
-            if (event.key === 'ArrowDown') {
-                rightY += 10;
-            }
-            if (leftY < 0) {leftY = 0}
-            if (leftY > (500 - 80)) {leftY = (500 - 80)}
-            if (rightY < 0) {rightY = 0}
-            if (rightY > (500 - 80)) {rightY = (500 - 80)} 
-        });
+        })
+
+        document.addEventListener('keyup', (event) => {
+            keys[event.key] = false;
+        })
 
         loop()
     </script>
