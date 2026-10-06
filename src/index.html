@@ -28,6 +28,7 @@
         let vy = 2;
         let sc1 = 0;
         let sc2 = 0;
+        let paddleSpeed = 2
         const keys = {}
 
         let sound = new AudioContext()
@@ -65,15 +66,25 @@
             let size = 1 + Math.random()
             vy = direction * size
             vx = Math.sign(vx) * -1 * 2
+            paddleSpeed = 2
             beep(150, 0.3);
+        }
+
+        function speedUp() {
+            if (Math.abs(vx) < 6) {
+                vx *= -1.05
+                paddleSpeed *= 1.05
+            } else {
+                vx *= -1
+            }
         }
 
         function loop() {
 
-            if (keys['w']) {leftY -= 2}
-            if (keys['s']) {leftY += 2}
-            if (keys['arrowup']) {rightY -= 2}
-            if (keys['arrowdown']) {rightY += 2}
+            if (keys['w']) {leftY -= paddleSpeed}
+            if (keys['s']) {leftY += paddleSpeed}
+            if (keys['arrowup']) {rightY -= paddleSpeed}
+            if (keys['arrowdown']) {rightY += paddleSpeed}
 
             if (leftY < 0) {leftY = 0}
             if (leftY > (500 - 80)) {leftY = (500 - 80)}
@@ -98,22 +109,14 @@
             }
 
             if (ballX + 10 > 20 && ballX < 30 && ballY + 10 > leftY && ballY < leftY + 80) {
-                if (Math.abs(vx) < 12) {
-                    vx *= -1.05
-                } else {
-                    vx *= -1
-                }
+                speedUp()
 
                 ballX = 30;
                 beep(440, 0.08);
             }
             if (ballX + 10 > 770 && ballX < 780 && ballY + 10 > rightY && ballY < rightY + 80) {
-                if (Math.abs(vx) < 12) {
-                    vx *= -1.05
-                } else {
-                    vx *= -1
-                }
-                
+                speedUp()
+
                 ballX = 760;
                 beep(440, 0.08);
             }
