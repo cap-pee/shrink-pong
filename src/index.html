@@ -64,9 +64,8 @@
             let direction = Math.random() < 0.5 ? 1 : -1
             let size = 1 + Math.random()
             vy = direction * size
-            vx *= -1;
-            beep(150, 0.3); 
-            console.log(vy)
+            vx = Math.sign(vx) * -1 * 2
+            beep(150, 0.3);
         }
 
         function loop() {
@@ -85,7 +84,7 @@
             ballX += vx;
             ballY += vy;
             if (ballY < 0 || ballY > (500 -10 )) {
-                vy *= -1.05
+                vy *= -1
                 beep(220, 0.05);
             }
             if (ballX < 0) {
@@ -99,12 +98,22 @@
             }
 
             if (ballX + 10 > 20 && ballX < 30 && ballY + 10 > leftY && ballY < leftY + 80) {
-                vx *= -1
+                if (Math.abs(vx) < 12) {
+                    vx *= -1.05
+                } else {
+                    vx *= -1
+                }
+
                 ballX = 30;
                 beep(440, 0.08);
             }
             if (ballX + 10 > 770 && ballX < 780 && ballY + 10 > rightY && ballY < rightY + 80) {
-                vx *= -1
+                if (Math.abs(vx) < 12) {
+                    vx *= -1.05
+                } else {
+                    vx *= -1
+                }
+                
                 ballX = 760;
                 beep(440, 0.08);
             }
