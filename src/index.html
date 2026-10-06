@@ -57,6 +57,18 @@
             score.textContent = `${sc1}     ${sc2}`
         }
 
+        function reset() {
+            ballY = (500 - 10) / 2;
+            ballX = (800 - 10) / 2;
+
+            let direction = Math.random() < 0.5 ? 1 : -1
+            let size = 1 + Math.random()
+            vy = direction * size
+            vx *= -1;
+            beep(150, 0.3); 
+            console.log(vy)
+        }
+
         function loop() {
 
             if (keys['w']) {leftY -= 2}
@@ -73,23 +85,17 @@
             ballX += vx;
             ballY += vy;
             if (ballY < 0 || ballY > (500 -10 )) {
-                vy *= -1
+                vy *= -1.05
                 beep(220, 0.05);
             }
             if (ballX < 0) {
-                ballY = (500 - 10) / 2;
-                ballX = (800 - 10) / 2;
-                vx *= -1;
+                reset()
                 sc2 += 1;
-                beep(150, 0.3); 
             }
             
             if (ballX > (800 - 10)) {
-                ballY = (500 - 10) / 2;
-                ballX = (800 - 10) / 2;
-                vx *= -1;
+                reset()
                 sc1 += 1;
-                beep(150, 0.3);
             }
 
             if (ballX + 10 > 20 && ballX < 30 && ballY + 10 > leftY && ballY < leftY + 80) {
